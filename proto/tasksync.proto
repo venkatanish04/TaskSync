@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package tasksync;
+
+option go_package = "github.com/venkatanish04/tasksync/proto;tasksyncpb";
+
+// Task represents a task managed by TaskSync.
+message Task {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  string status = 4;
+}
+
+// Request to create or update a task.
+message PutTaskRequest {
+  Task task = 1;
+}
+
+// Response from create/update operation.
+message PutTaskResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// Request to retrieve a task.
+message GetTaskRequest {
+  string id = 1;
+}
+
+// Response containing a task.
+message GetTaskResponse {
+  Task task = 1;
+  bool found = 2;
+}
+
+// Request to delete a task.
+message DeleteTaskRequest {
+  string id = 1;
+}
+
+// Response from delete operation.
+message DeleteTaskResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// TaskSync gRPC service.
+service TaskSyncService {
+  // Create or update a task.
+  rpc PutTask(PutTaskRequest) returns (PutTaskResponse);
+
+  // Retrieve a task.
+  rpc GetTask(GetTaskRequest) returns (GetTaskResponse);
+
+  // Delete a task.
+  rpc DeleteTask(DeleteTaskRequest) returns (DeleteTaskResponse);
+}
